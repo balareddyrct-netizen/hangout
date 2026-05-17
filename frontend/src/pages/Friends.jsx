@@ -52,80 +52,80 @@ const Friends = () => {
   return (
     <div className="page-container animate-fade-in">
       <header className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Network</h1>
-        <div className="flex gap-4 border-b border-white/10 mt-6">
-          <button onClick={() => setTab('discover')} className={`pb-2 px-1 ${tab === 'discover' ? 'border-b-2 border-accent-primary text-white' : 'text-gray-400'}`}>Discover Matches</button>
-          <button onClick={() => setTab('friends')} className={`pb-2 px-1 ${tab === 'friends' ? 'border-b-2 border-accent-primary text-white' : 'text-gray-400'}`}>My Friends</button>
-          <button onClick={() => setTab('requests')} className={`pb-2 px-1 ${tab === 'requests' ? 'border-b-2 border-accent-primary text-white' : 'text-gray-400'}`}>Requests</button>
+        <h1 className="text-3xl font-bold mb-2 font-serif text-gray-900">Network</h1>
+        <div className="flex gap-4 border-b border-gray-200 mt-6">
+          <button onClick={() => setTab('discover')} className={`pb-2 px-1 ${tab === 'discover' ? 'border-b-2 border-purple-600 text-purple-600 font-medium' : 'text-gray-500 hover:text-gray-700'}`}>Discover Matches</button>
+          <button onClick={() => setTab('friends')} className={`pb-2 px-1 ${tab === 'friends' ? 'border-b-2 border-purple-600 text-purple-600 font-medium' : 'text-gray-500 hover:text-gray-700'}`}>My Friends</button>
+          <button onClick={() => setTab('requests')} className={`pb-2 px-1 ${tab === 'requests' ? 'border-b-2 border-purple-600 text-purple-600 font-medium' : 'text-gray-500 hover:text-gray-700'}`}>Requests</button>
         </div>
       </header>
 
       {tab === 'discover' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {discover.map((match) => (
-            <div key={match.user.id} className="glass p-5 rounded-xl flex flex-col items-center text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-accent-primary text-white text-xs font-bold px-3 py-1 rounded-bl-lg">
+            <div key={match.user.id} className="bg-white border border-gray-100 shadow-sm p-6 rounded-2xl flex flex-col items-center text-center relative overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-md">
+              <div className="absolute top-0 right-0 bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-bl-xl border-b border-l border-purple-200">
                 {match.match_percentage}% Match
               </div>
-              <img src={match.user.avatar_url || `https://ui-avatars.com/api/?name=${match.user.username}`} className="w-20 h-20 rounded-full mb-3 mt-4 border-2 border-white/10" alt="avatar" />
-              <h3 className="font-bold text-lg">{match.user.username}</h3>
-              <p className="text-sm text-secondary line-clamp-2 mb-3">{match.user.bio}</p>
+              <img src={match.user.avatar_url || `https://ui-avatars.com/api/?name=${match.user.username}&background=f3f4f6&color=4b5563`} className="w-24 h-24 rounded-full mb-4 mt-4 border-4 border-white shadow-sm" alt="avatar" />
+              <h3 className="font-bold text-xl text-gray-900">{match.user.username}</h3>
+              <p className="text-sm text-gray-500 line-clamp-2 mb-4 mt-1">{match.user.bio || "No bio yet."}</p>
               
-              <div className="flex flex-wrap justify-center gap-1 mb-4">
+              <div className="flex flex-wrap justify-center gap-2 mb-6">
                 {match.shared_interests.slice(0,3).map(interest => (
-                  <span key={interest} className="text-[10px] bg-white/10 px-2 py-1 rounded-full text-cyan-300">
+                  <span key={interest} className="text-[10px] bg-gray-100 border border-gray-200 px-2.5 py-1 rounded-full text-gray-600 font-medium tracking-wide uppercase">
                     {interest.replace('_', ' ')}
                   </span>
                 ))}
-                {match.shared_interests.length > 3 && <span className="text-[10px] text-gray-500">+{match.shared_interests.length-3}</span>}
+                {match.shared_interests.length > 3 && <span className="text-[10px] text-gray-400 font-medium">+{match.shared_interests.length-3}</span>}
               </div>
               
-              <button onClick={() => sendRequest(match.user.id)} className="btn btn-primary w-full mt-auto py-2 text-sm">
+              <button onClick={() => sendRequest(match.user.id)} className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2 mt-auto shadow-sm">
                 <UserPlus size={16} /> Add Friend
               </button>
             </div>
           ))}
-          {discover.length === 0 && <p className="col-span-full text-center text-secondary py-10">No matches found right now. Update your preferences!</p>}
+          {discover.length === 0 && <p className="col-span-full text-center text-gray-500 py-10 bg-white rounded-2xl border border-gray-100 border-dashed">No matches found right now. Update your preferences!</p>}
         </div>
       )}
 
       {tab === 'friends' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {friends.map((friend) => (
-            <div key={friend.id} className="glass p-5 rounded-xl flex items-center gap-4">
-              <img src={friend.avatar_url || `https://ui-avatars.com/api/?name=${friend.username}`} className="w-16 h-16 rounded-full border border-white/10" alt="avatar" />
+            <div key={friend.id} className="bg-white border border-gray-100 shadow-sm p-4 rounded-2xl flex items-center gap-4 hover:shadow-md transition-shadow">
+              <img src={friend.avatar_url || `https://ui-avatars.com/api/?name=${friend.username}&background=f3f4f6&color=4b5563`} className="w-14 h-14 rounded-full border border-gray-200" alt="avatar" />
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold truncate">{friend.username}</h3>
-                <p className="text-xs text-secondary truncate">{friend.bio}</p>
+                <h3 className="font-bold text-gray-900 truncate">{friend.username}</h3>
+                <p className="text-xs text-gray-500 truncate">{friend.bio || "Available"}</p>
               </div>
-              <Link to="/chat" className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-accent-secondary transition-colors">
+              <Link to="/chat" className="p-3 bg-purple-50 hover:bg-purple-100 rounded-full text-purple-600 transition-colors">
                 <MessageCircle size={20} />
               </Link>
             </div>
           ))}
-          {friends.length === 0 && <p className="col-span-full text-center text-secondary py-10">You haven't added any friends yet.</p>}
+          {friends.length === 0 && <p className="col-span-full text-center text-gray-500 py-10 bg-white rounded-2xl border border-gray-100 border-dashed">You haven't added any friends yet.</p>}
         </div>
       )}
 
       {tab === 'requests' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {requests.map((req) => (
-            <div key={req.request_id} className="glass p-5 rounded-xl flex items-center gap-4">
-              <img src={req.user.avatar_url || `https://ui-avatars.com/api/?name=${req.user.username}`} className="w-12 h-12 rounded-full" alt="avatar" />
-              <div className="flex-1">
-                <h3 className="font-bold">{req.user.username}</h3>
+            <div key={req.request_id} className="bg-white border border-gray-100 shadow-sm p-4 rounded-2xl flex items-center gap-4">
+              <img src={req.user.avatar_url || `https://ui-avatars.com/api/?name=${req.user.username}&background=f3f4f6&color=4b5563`} className="w-12 h-12 rounded-full border border-gray-200" alt="avatar" />
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-gray-900 truncate">{req.user.username}</h3>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => handleRequest(req.request_id, 'accept')} className="p-2 bg-success/20 text-success rounded-full hover:bg-success/30">
+                <button onClick={() => handleRequest(req.request_id, 'accept')} className="p-2 bg-green-50 text-green-600 rounded-full hover:bg-green-100 transition-colors shadow-sm">
                   <Check size={18} />
                 </button>
-                <button onClick={() => handleRequest(req.request_id, 'reject')} className="p-2 bg-danger/20 text-danger rounded-full hover:bg-danger/30">
+                <button onClick={() => handleRequest(req.request_id, 'reject')} className="p-2 bg-red-50 text-red-600 rounded-full hover:bg-red-100 transition-colors shadow-sm">
                   <X size={18} />
                 </button>
               </div>
             </div>
           ))}
-          {requests.length === 0 && <p className="col-span-full text-center text-secondary py-10">No pending requests.</p>}
+          {requests.length === 0 && <p className="col-span-full text-center text-gray-500 py-10 bg-white rounded-2xl border border-gray-100 border-dashed">No pending requests.</p>}
         </div>
       )}
     </div>

@@ -26,11 +26,12 @@ def get_friends_locations(db: Session = Depends(get_db), current_user: User = De
     
     friend_ids = [f.friend_id if f.user_id == current_user.id else f.user_id for f in friendships]
     
-    # Return friends with valid coordinates
+    # Return friends with valid coordinates (exclude private profiles)
     friends = db.query(User).filter(
         User.id.in_(friend_ids),
         User.latitude.isnot(None),
-        User.longitude.isnot(None)
+        User.longitude.isnot(None),
+        User.is_private == False
     ).all()
     
     return friends

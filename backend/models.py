@@ -15,6 +15,14 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: Optional[str] = None
 
+# OTP Models
+class OTPRequest(BaseModel):
+    email: EmailStr
+
+class OTPVerify(BaseModel):
+    email: EmailStr
+    code: str
+
 # User Preference Models
 class UserPreferenceBase(BaseModel):
     category: str
@@ -37,12 +45,24 @@ class UserBase(BaseModel):
     email: EmailStr
     bio: Optional[str] = None
     avatar_url: Optional[str] = None
+    phone: Optional[str] = None
+    location_city: Optional[str] = None
+    photos: Optional[List[str]] = []
+    is_verified: bool = False
+    is_private: bool = False
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
 class UserUpdate(BaseModel):
     bio: Optional[str] = None
     avatar_url: Optional[str] = None
+
+class UserProfileUpdate(BaseModel):
+    bio: Optional[str] = None
+    avatar_url: Optional[str] = None
+    phone: Optional[str] = None
+    location_city: Optional[str] = None
+    is_private: Optional[bool] = None
 
 class LocationUpdate(BaseModel):
     latitude: float

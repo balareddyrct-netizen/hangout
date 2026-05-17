@@ -41,11 +41,23 @@ export const AuthProvider = ({ children }) => {
     // Fetch user profile
     const userRes = await apiClient.get('/users/me');
     setUser(userRes.data);
+    return userRes.data;
   };
 
-  const register = async (userData) => {
-    await apiClient.post('/auth/register', userData);
-    await login(userData.username, userData.password);
+  const register = async (username, email, password) => {
+    const res = await apiClient.post('/auth/register', { username, email, password });
+    // After registration, log them in to get a token
+    await login(username, password);
+    return res.data;
+  };
+
+  const refreshUser = async () => {
+    try {
+      const userRes = await apiClient.get('/users/me');
+      setUser(userRes.data);
+    } catch (e) {
+      console.error("Refresh user failed:", e);
+    }
   };
 
   const logout = () => {
@@ -54,7 +66,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, refreshUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );

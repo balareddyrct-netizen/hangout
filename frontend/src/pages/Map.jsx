@@ -92,17 +92,17 @@ const MapPage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Use CartoDB Dark Matter tiles for the dark theme look
-  const darkMapUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+  // Use CartoDB Positron tiles for the light theme look
+  const lightMapUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
   return (
     <div className="h-full w-full relative animate-fade-in flex flex-col">
-      <div className="absolute top-6 left-6 z-[1000] glass px-6 py-4 rounded-xl pointer-events-none">
-        <h1 className="text-2xl font-bold text-gradient">Snap Map</h1>
-        <p className="text-sm text-secondary">See where your friends are hanging out.</p>
+      <div className="absolute top-6 left-6 z-[1000] bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-md border border-gray-100 pointer-events-none">
+        <h1 className="text-2xl font-bold font-serif text-gray-900">Snap Map</h1>
+        <p className="text-sm text-gray-500 font-medium">See where your friends are hanging out.</p>
       </div>
 
-      <div className="flex-1 w-full h-full bg-bg-darker">
+      <div className="flex-1 w-full h-full bg-[#FAFAFA]">
         <MapContainer 
           center={position} 
           zoom={13} 
@@ -111,7 +111,7 @@ const MapPage = () => {
         >
           <ChangeView center={position} />
           <TileLayer
-            url={darkMapUrl}
+            url={lightMapUrl}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
 
@@ -134,18 +134,18 @@ const MapPage = () => {
               position={[friend.latitude, friend.longitude]} 
               icon={createAvatarIcon(friend.avatar_url, friend.username)}
             >
-              <Popup className="dark-popup">
+              <Popup className="light-popup">
                 <div className="p-1 min-w-[150px]">
                   <div className="flex items-center gap-3 mb-3">
-                    <img src={friend.avatar_url || `https://ui-avatars.com/api/?name=${friend.username}`} className="w-10 h-10 rounded-full" alt="avatar" />
+                    <img src={friend.avatar_url || `https://ui-avatars.com/api/?name=${friend.username}&background=f3f4f6&color=4b5563`} className="w-10 h-10 rounded-full border border-gray-200" alt="avatar" />
                     <div>
-                      <h3 className="font-bold text-gray-800 leading-none">{friend.username}</h3>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <h3 className="font-bold text-gray-900 leading-none">{friend.username}</h3>
+                      <p className="text-xs text-gray-500 mt-1 font-medium">
                         Active {new Date(friend.last_seen).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                       </p>
                     </div>
                   </div>
-                  <Link to={`/chat`} className="btn bg-accent-primary text-white w-full py-1.5 text-xs flex justify-center mt-2">
+                  <Link to={`/chat`} className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-medium transition-colors flex items-center justify-center gap-1.5 mt-2 shadow-sm">
                     <MessageCircle size={14} /> Message
                   </Link>
                 </div>
@@ -157,17 +157,20 @@ const MapPage = () => {
 
       <style dangerouslySetInnerHTML={{__html: `
         .leaflet-container {
-          background-color: #0f172a;
+          background-color: #FAFAFA;
           font-family: 'Inter', sans-serif;
         }
         .leaflet-popup-content-wrapper {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(8px);
-          border-radius: 12px;
-          box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+          background: #FFFFFF;
+          border-radius: 16px;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+          border: 1px solid #E5E7EB;
         }
         .leaflet-popup-tip {
-          background: rgba(255, 255, 255, 0.95);
+          background: #FFFFFF;
+          border: 1px solid #E5E7EB;
+          border-top: none;
+          border-left: none;
         }
       `}} />
     </div>

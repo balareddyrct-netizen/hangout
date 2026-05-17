@@ -1,6 +1,6 @@
 import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import List
+from typing import List, Optional
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Hangout"
@@ -19,6 +19,12 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5173",
         "http://127.0.0.1:8000",
     ]
+
+    # SMTP for OTP emails (optional - falls back to console logging)
+    SMTP_EMAIL: Optional[str] = None
+    SMTP_PASSWORD: Optional[str] = None
+    SMTP_HOST: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 

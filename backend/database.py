@@ -22,6 +22,11 @@ class User(Base):
     hashed_password = Column(String)
     bio = Column(String, nullable=True)
     avatar_url = Column(String, nullable=True)
+    phone = Column(String, nullable=True)
+    location_city = Column(String, nullable=True)
+    photos = Column(JSON, default=[])  # List of photo URLs
+    is_verified = Column(Boolean, default=False)
+    is_private = Column(Boolean, default=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     last_seen = Column(DateTime, default=datetime.utcnow)
@@ -64,6 +69,16 @@ class Message(Base):
 
     sender = relationship("User", foreign_keys=[sender_id], back_populates="sent_messages")
     receiver = relationship("User", foreign_keys=[receiver_id], back_populates="received_messages")
+
+class OTPCode(Base):
+    __tablename__ = "otp_codes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, index=True)
+    code = Column(String)
+    expires_at = Column(DateTime)
+    verified = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
 def get_db():
     db = SessionLocal()

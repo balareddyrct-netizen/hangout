@@ -24,8 +24,8 @@ def find_matches(db: Session, current_user: User):
 
     user_pref_dict = {p.category: set(p.subcategories) for p in user_prefs}
     
-    # Get other users
-    other_users = db.query(User).filter(User.id != current_user.id).all()
+    # Get other users (exclude private profiles)
+    other_users = db.query(User).filter(User.id != current_user.id, User.is_private == False).all()
     
     matches = []
     

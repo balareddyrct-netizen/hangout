@@ -29,7 +29,8 @@ def seed_db():
             bio=u["bio"],
             avatar_url=u["avatar_url"],
             latitude=u["lat"],
-            longitude=u["lon"]
+            longitude=u["lon"],
+            is_verified=True,
         )
         db.add(user)
         db_users.append(user)

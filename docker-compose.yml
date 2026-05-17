@@ -10,6 +10,8 @@ services:
       - PROJECT_NAME=Hangout Production
       - SECRET_KEY=${SECRET_KEY:-your-super-secret-key-for-development-only}
       - DATABASE_URL=postgresql://hangout_user:hangout_password@db:5432/hangout_db
+    volumes:
+      - uploads_data:/app/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -33,3 +35,4 @@ services:
 
 volumes:
   postgres_data:
+  uploads_data:
